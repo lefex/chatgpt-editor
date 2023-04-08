@@ -1,0 +1,22 @@
+.main-editor-wrap {
+    font-size: 16px;
+    height: calc(100vh - 45px);
+    width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    overflow: scroll;
+    .editor {
+        width: 100%;
+        height: auto;
+        min-height: 30vh;
+        overflow: hidden;
+        padding-bottom: 30vh;
+        padding-left: calc(96px + env(safe-area-inset-left));
+        padding-right: calc(96px + env(safe-area-inset-right));
+    }
+}
+
+// 默认文字大小
+.ql-container {
+    font-size: 16px;
+}

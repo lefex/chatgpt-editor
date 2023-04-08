@@ -26,3 +26,9 @@ quill.js
 /test-results/
 /playwright-report/
 /playwright/.cache/
+playwright.config.js
+e2e/full.spec.js
+e2e/utils/index.js
+e2e/utils/fixtures.js
+e2e/utils/QuillPage.js
+aieditor/node_modules
