@@ -1,7 +1,7 @@
-Note: This branch and README covers the upcoming 2.0 release. View [1.x docs here](https://github.com/quilljs/quill/tree/1.3.6).
+Note: This project is developing.
 
 <h1 align="center">
-  <a href="https://quilljs.com/" title="Quill">Quill Rich Text Editor</a>
+  <a href="https://quilljs.com/" title="Quill">ChatGPT Editor Based On Quill</a>
 </h1>
 <p align="center">
   <a href="https://quilljs.com/" title="Quill"><img alt="Quill Logo" src="https://quilljs.com/assets/images/logo.svg" width="180"></a>
