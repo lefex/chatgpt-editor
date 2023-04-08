@@ -10,11 +10,18 @@ import Delta from 'quill-delta';
 import Break from './break';
 import Inline from './inline';
 import TextBlot from './text';
+import uuid from '../utils/uuid';
 
 const NEWLINE_LENGTH = 1;
 
 class Block extends BlockBlot {
   cache: { delta?: Delta | null; length?: number } = {};
+
+  static create(value) {
+    const node = super.create(value) as Element;
+    node.setAttribute('data-block-id', uuid());
+    return node;
+  }
 
   delta(): Delta {
     if (this.cache.delta == null) {
