@@ -5,7 +5,7 @@ import {
   LeafBlot,
   Scope,
 } from 'parchment';
-import { Blot } from 'parchment/dist/typings/blot/abstract/blot';
+import { Blot, Parent } from 'parchment/dist/typings/blot/abstract/blot';
 import Delta from 'quill-delta';
 import Break from './break';
 import Inline from './inline';
@@ -17,10 +17,27 @@ const NEWLINE_LENGTH = 1;
 class Block extends BlockBlot {
   cache: { delta?: Delta | null; length?: number } = {};
 
+  constructor(scroll, domNode) {
+    super(scroll, domNode);
+    domNode.setAttribute('data-block-id', uuid());
+    console.log('>>>>>>> Block.constructor', domNode, this);
+    console.trace();
+  }
+
   static create(value) {
     const node = super.create(value) as Element;
-    node.setAttribute('data-block-id', uuid());
+    console.log('Block.create', value);
     return node;
+  }
+
+  attach(): void {
+    super.attach();
+    console.log('Block.attach');
+  }
+
+  detach(): void {
+    super.detach();
+    console.log('Block.detach');
   }
 
   delta(): Delta {
@@ -102,7 +119,19 @@ class Block extends BlockBlot {
 
   optimize(context) {
     super.optimize(context);
+    console.log('Block.optimize', context);
     this.cache = {};
+  }
+
+  update(mutations: MutationRecord[], context: { [key: string]: any }): void {
+    super.update(mutations, context);
+    console.log('Block.update', mutations, context);
+  }
+
+  wrap(name: string | Parent, value?: any): Parent {
+    const wrapper = super.wrap(name, value);
+    console.log('Block.wrap', name, value);
+    return wrapper;
   }
 
   path(index) {
