@@ -2,6 +2,10 @@ import Delta from 'quill-delta';
 
 export function getBlockDelta() {
   const delta = new Delta();
+  delta.insert('射雕英雄传');
+  delta.insert('\n', {
+    header: 1,
+  });
   delta.insert(
     '在一个充满未来科技的世界里，射雕英雄传的故事发生在一个遥远的星系中，主角是一位年轻的太空探险家，他的名字叫做李飞。',
   );

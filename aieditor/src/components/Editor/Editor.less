@@ -18,5 +18,12 @@
 
 // 默认文字大小
 .ql-container {
-    font-size: 16px;
+    .ql-editor {
+        // 默认字体大小
+        font-size: 16px;
+        // 每个块元素的上下间距
+        *[data-block-id] {
+            margin: 10px 0;
+        }
+    }
 }
