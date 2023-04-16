@@ -6,6 +6,9 @@ export function getBlockDelta() {
   delta.insert('\n', {
     header: 1,
   });
+  delta.insert('来自AI世界\n', {
+    link: 'https://magickpen.com',
+  });
   delta.insert(
     '在一个充满未来科技的世界里，射雕英雄传的故事发生在一个遥远的星系中，主角是一位年轻的太空探险家，他的名字叫做李飞。',
   );

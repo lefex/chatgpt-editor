@@ -1,23 +1,31 @@
 import './ToolBar.less';
-import { useState } from 'react';
+import { Range } from '../../../../core/selection';
+import { ToolBarData } from '../../types/editorType';
 
 interface ToolBarItemProps {
   activited: boolean;
   text: string;
   format: string;
+  onClick?: (format: string) => void;
 }
 
 const activityColor = 'rgb(35, 131, 226)';
+type ToolBarItemPartProps = Pick<ToolBarItemProps, 'activited' | 'onClick'>;
 
 function CreateSampleItem(props: ToolBarItemProps) {
-  const { activited, text, format } = props;
+  const { activited, text, format, onClick } = props;
   const style = {
     color: activited ? activityColor : '',
   };
 
   const handleClick = () => {
     const quill = window.quill;
-    quill.format(format, !activited);
+    if (activited) {
+      quill.format(format, null);
+    } else {
+      quill.format(format, true);
+    }
+    if (onClick) onClick(format);
   };
 
   return (
@@ -29,10 +37,9 @@ function CreateSampleItem(props: ToolBarItemProps) {
   );
 }
 
-function Bold(props: Partial<ToolBarItemProps>) {
-  const { activited } = props;
+function Bold(props: ToolBarItemPartProps) {
   const component = CreateSampleItem({
-    activited: activited || false,
+    ...props,
     text: 'B',
     format: 'bold',
   });
@@ -40,10 +47,9 @@ function Bold(props: Partial<ToolBarItemProps>) {
   return component;
 }
 
-function Italic(props: Partial<ToolBarItemProps>) {
-  const { activited } = props;
+function Italic(props: ToolBarItemPartProps) {
   const component = CreateSampleItem({
-    activited: activited || false,
+    ...props,
     text: 'i',
     format: 'italic',
   });
@@ -51,10 +57,9 @@ function Italic(props: Partial<ToolBarItemProps>) {
   return component;
 }
 
-function Underline(props: Partial<ToolBarItemProps>) {
-  const { activited } = props;
+function Underline(props: ToolBarItemPartProps) {
   const component = CreateSampleItem({
-    activited: activited || false,
+    ...props,
     text: 'U',
     format: 'underline',
   });
@@ -62,10 +67,9 @@ function Underline(props: Partial<ToolBarItemProps>) {
   return component;
 }
 
-function Strike(props: Partial<ToolBarItemProps>) {
-  const { activited } = props;
+function Strike(props: ToolBarItemPartProps) {
   const component = CreateSampleItem({
-    activited: activited || false,
+    ...props,
     text: 'S',
     format: 'strike',
   });
@@ -74,29 +78,26 @@ function Strike(props: Partial<ToolBarItemProps>) {
 }
 
 export interface ToolBarProps {
-  isShow: boolean;
+  onClick?: (format: string) => void;
+  datas: ToolBarData | null;
 }
 
 export default function ToolBar(props: ToolBarProps) {
-  const { isShow } = props;
+  const { onClick, datas } = props;
   const quill = window.quill;
-  const range = quill.getSelection();
-  let left = 0;
-  let top = 0;
+  const left = datas?.left || 0;
+  const top = datas?.top || 0;
   let formats: Record<string, any> = {};
-  if (range) {
-    const rect = quill.getBounds(range.index);
-    console.log('rect', rect);
-    if (rect) {
-      left = rect.left;
-      top = rect.top;
+  if (datas?.isShow) {
+    const range = quill.getSelection();
+    if (range) {
+      formats = quill.getFormat(range);
     }
-    formats = quill.getFormat(range);
     console.log('formats', formats);
   }
 
   const classNames = ['tool-bar-wrap'];
-  classNames.push(isShow ? 'tool-bar-show' : 'tool-bar-hide');
+  classNames.push(datas?.isShow ? 'tool-bar-show' : 'tool-bar-hide');
   const className = classNames.join(' ');
 
   const styles = {
@@ -106,10 +107,10 @@ export default function ToolBar(props: ToolBarProps) {
 
   return (
     <div className={className} style={styles}>
-      <Bold activited={formats.bold} />
-      <Italic activited={formats.italic} />
-      <Underline activited={formats.underline} />
-      <Strike activited={formats.strike} />
+      <Bold activited={formats.bold} onClick={onClick} />
+      <Italic activited={formats.italic} onClick={onClick} />
+      <Underline activited={formats.underline} onClick={onClick} />
+      <Strike activited={formats.strike} onClick={onClick} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import Quill from '../../../../quill';
+import Emitter from '../../../../core/emitter';
 import './Editor.less';
 import { getBlockDelta } from '../../mock/block';
 import { useEffect, useRef } from 'react';
@@ -25,13 +26,14 @@ export default function Editor(props: EditorProps) {
     if (rootEl) {
       const quill = new Quill(rootEl, {
         theme: '',
+        debug: true,
       });
+
+      // selection-change
       quill.on('selection-change', (range, oldRange, source) => {
         onSelectionChange(range, oldRange, source);
       });
-      quill.on('format-change', (format, value) => {
-        console.log('format-change', format, value);
-      });
+
       const delta = getBlockDelta();
       quill.setContents(delta);
       window.quill = quill;
